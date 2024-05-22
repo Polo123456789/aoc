@@ -1,0 +1,4 @@
+main
+*.o
+session.vim
+output.txt
