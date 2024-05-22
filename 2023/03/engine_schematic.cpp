@@ -26,13 +26,13 @@ std::ostream &operator<<(std::ostream &o, engine_schematic &e) {
 	return o;
 }
 
-[[nodiscard]] char engine_schematic::get(position p) const {
+char engine_schematic::get(position p) const {
 	auto x = static_cast<size_type>(p.x);
 	auto y = static_cast<size_type>(p.y);
 	return map[y][x];
 }
 
-[[nodiscard]] bool engine_schematic::in_range(position p) const {
+bool engine_schematic::in_range(position p) const {
 	if (p.x >= this->width() || p.x < 0) {
 		return false;
 	}
@@ -44,14 +44,14 @@ std::ostream &operator<<(std::ostream &o, engine_schematic &e) {
 	return true;
 }
 
-[[nodiscard]] char engine_schematic::get_or_empty(position p) const {
+char engine_schematic::get_or_empty(position p) const {
 	if (!in_range(p)) {
 		return empty;
 	}
 	return this->get(p);
 }
 
-[[nodiscard]] auto engine_schematic::width(void) const -> index_type {
+auto engine_schematic::width(void) const -> index_type {
 	if (map.size() == 0) {
 		return 0;
 	}
@@ -59,12 +59,11 @@ std::ostream &operator<<(std::ostream &o, engine_schematic &e) {
 	return static_cast<index_type>(map[0].size());
 }
 
-[[nodiscard]] auto engine_schematic::height(void) const -> index_type {
+auto engine_schematic::height(void) const -> index_type {
 	return static_cast<index_type>(map.size());
 }
 
-[[nodiscard]] auto
-	engine_schematic::count_digits_at(position p) const -> index_type {
+auto engine_schematic::count_digits_at(position p) const -> index_type {
 	index_type count = 0;
 	while (p.x < this->width() && std::isdigit(this->get(p))) {
 		count++;
@@ -77,7 +76,7 @@ static bool is_simbol(char c) {
 	return !std::isdigit(c) && c != engine_schematic::empty;
 }
 
-[[nodiscard]] bool engine_schematic::has_symbol_around(position p) const {
+bool engine_schematic::has_symbol_around(position p) const {
 	return std::any_of(positions_around.begin(), positions_around.end(),
 					   [this, p](const auto &pos) {
 						   auto new_pos = position{
@@ -89,7 +88,7 @@ static bool is_simbol(char c) {
 }
 
 
-[[nodiscard]] int engine_schematic::get_number_at(position p, index_type count) const {
+int engine_schematic::get_number_at(position p, index_type count) const {
 	auto y = static_cast<size_type>(p.y);
 	auto x = static_cast<size_type>(p.x);
 	auto ccount = static_cast<size_type>(count);
@@ -111,7 +110,7 @@ using index_type = engine_schematic::index_type;
 	}
 }
 
-[[nodiscard]] int engine_schematic::get_sum_of_parts(void) const {
+int engine_schematic::get_sum_of_parts(void) const {
 	int sum = 0;
 	for (index_type y = 0; y < this->height(); y++) {
 		for (index_type x = 0; x < this->width(); x++) {
@@ -131,6 +130,6 @@ using index_type = engine_schematic::index_type;
 	return sum;
 }
 
-[[nodiscard]] int engine_schematic::get_sum_of_gear_ratios(void) const {
+int engine_schematic::get_sum_of_gear_ratios(void) const {
 	return 0;
 }
