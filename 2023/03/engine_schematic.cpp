@@ -5,11 +5,13 @@
 #include <string>
 #include <array>
 
+// clang-format off
 constexpr std::array<engine_schematic::position, 8> positions_around = {
 	{ { -1, -1 }, { 0, -1 }, { 1, -1 },
 	  { -1, 0 },             { 1, 0 },
-	  { -1, 1 },  { 0, 1 },   { 1, 1 } }
+	  { -1, 1 },  { 0, 1 },  { 1, 1 } }
 };
+// clang-format on
 
 engine_schematic::engine_schematic(std::istream &in) {
 	std::string line;
@@ -77,16 +79,13 @@ static bool is_simbol(char c) {
 }
 
 bool engine_schematic::has_symbol_around(position p) const {
-	return std::any_of(positions_around.begin(), positions_around.end(),
+	return std::any_of(positions_around.begin(),
+					   positions_around.end(),
 					   [this, p](const auto &pos) {
-						   auto new_pos = position{
-							   p.x + pos.x,
-							   p.y + pos.y
-						   };
+						   auto new_pos = position{p.x + pos.x, p.y + pos.y};
 						   return is_simbol(this->get_or_empty(new_pos));
 					   });
 }
-
 
 int engine_schematic::get_number_at(position p, index_type count) const {
 	auto y = static_cast<size_type>(p.y);
@@ -99,9 +98,9 @@ int engine_schematic::get_number_at(position p, index_type count) const {
 // Here for debugging
 using index_type = engine_schematic::index_type;
 [[maybe_unused]] static void print_all_around(const engine_schematic &e,
-							 index_type				 x_start,
-							 index_type				 x_end,
-							 index_type				 y_pos) {
+											  index_type			  x_start,
+											  index_type			  x_end,
+											  index_type			  y_pos) {
 	for (auto y = y_pos - 1; y <= y_pos + 1; y++) {
 		for (auto x = x_start - 1; x <= x_end; x++) {
 			std::cout << e.get_or_empty({x, y});
@@ -123,8 +122,8 @@ int engine_schematic::get_sum_of_parts(void) const {
 						break;
 					}
 				}
+				x += count;
 			}
-			x += count;
 		}
 	}
 	return sum;
